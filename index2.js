@@ -24,6 +24,11 @@ api.get('/usuario', (req, res) => {
 api.post('/usuario/criar', (req, res) => {
     const { name, email, idade } = req.body;
 
+    if (!name || !email || !idade) {
+        res.status(400).json({ error: "informacoes invalidas. insira corretamente no arquivo json." });
+        return;
+    }
+
     const userTemp = {
         id: last_update++,
         name: name,
@@ -31,13 +36,8 @@ api.post('/usuario/criar', (req, res) => {
         idade: idade
     }
 
-    if (!name || !email || !idade) {
-        res.status(400).json({ error: "informacoes invalidas. insira corretamente no arquivo json." });
-        return;
-    }
-
     usuarios.push(userTemp);
-    res.status(200).json({ message: "cadastro bem sucedido"})
+    res.status(201).json({ message: "cadastro bem sucedido"})
 });
 
 api.listen(7070, () => {
